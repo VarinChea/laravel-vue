@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "@vue/compiler-sfc": "^3.2.20",
-        "axios": "^0.21",
+        "axios": "^0.21.4",
         "bootstrap": "^4.6.0",
         "jquery": "^3.6",
         "laravel-mix": "^6.0.6",
@@ -24,5 +24,8 @@
         "vue": "^3.2.20",
         "vue-loader": "^16.8.1",
         "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "vue-axios": "^3.3.7"
     }
 }
