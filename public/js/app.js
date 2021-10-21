@@ -19152,7 +19152,9 @@ __webpack_require__.r(__webpack_exports__);
       item: {
         name: "",
         tel: ""
-      }
+      },
+      temp_id: null,
+      isEditing: false
     };
   },
   mounted: function mounted() {
@@ -19167,18 +19169,45 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     submit: function submit() {
+      var _this2 = this;
+
+      var method = (axios__WEBPACK_IMPORTED_MODULE_0___default().post);
+      var url = "/api/tel";
+
+      if (this.temp_id) {
+        method = (axios__WEBPACK_IMPORTED_MODULE_0___default().put);
+        url = "/api/tel/".concat(this.temp_id);
+      }
+
       try {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://127.0.0.1:8000/api/tel', this.item).then(function (res) {});
+        method(url, this.item).then(function (res) {
+          _this2.fetchAll();
+
+          _this2.item = {
+            name: "",
+            tel: ""
+          };
+          _this2.temp_id = null;
+          _this2.isEditing = false;
+        });
       } catch (e) {
         console.log(e);
       }
     },
+    editTel: function editTel(tel) {
+      this.item = {
+        name: tel.name,
+        tel: tel.tel
+      };
+      this.temp_id = tel.id;
+      this.isEditing = true;
+    },
     deleteTel: function deleteTel(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       try {
         axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("api/tel/".concat(id)).then(function (res) {
-          return _this2.fetchAll();
+          return _this3.fetchAll();
         });
       } catch (e) {}
     }
@@ -19240,12 +19269,9 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_9 = {
   "class": "btn btn-primary"
-}, "submit", -1
-/* HOISTED */
-);
-
+};
 var _hoisted_10 = {
   key: 0,
   "class": "col-md-12 mt-3"
@@ -19265,16 +19291,7 @@ var _hoisted_13 = {
     "float": "right"
   }
 };
-
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  style: {
-    "margin-right": "10px"
-  },
-  "class": "btn btn-warning btn-sm mr-2"
-}, "View", -1
-/* HOISTED */
-);
-
+var _hoisted_14 = ["onClick"];
 var _hoisted_15 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, _hoisted_2, _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
@@ -19302,7 +19319,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.item.tel]]), _hoisted_8, _hoisted_9])], 32
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.item.tel]]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isEditing ? 'Update' : 'submit'), 1
+  /* TEXT */
+  )])], 32
   /* HYDRATE_EVENTS */
   ), $data.lists.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.lists, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -19310,7 +19329,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: item.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name) + " | " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tel) + " ", 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.editTel(item);
+      },
+      style: {
+        "margin-right": "10px"
+      },
+      "class": "btn btn-warning btn-sm mr-2"
+    }, "Edit", 8
+    /* PROPS */
+    , _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.deleteTel(item.id);
       },
